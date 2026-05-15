@@ -95,6 +95,14 @@ CODE = ParagraphStyle(
     borderColor=LINE, borderWidth=0.5, borderPadding=6,
     spaceBefore=4, spaceAfter=6,
 )
+# Code block style for content containing Hangul (Courier has no Korean glyphs).
+CODE_KO = ParagraphStyle(
+    "CodeKO", parent=styles["Code"], fontName="Malgun", fontSize=9.5,
+    leading=14, textColor=INK,
+    backColor=TAN, leftIndent=8, rightIndent=8,
+    borderColor=LINE, borderWidth=0.5, borderPadding=8,
+    spaceBefore=4, spaceAfter=6,
+)
 CALLOUT_TITLE = ParagraphStyle(
     "CalloutTitle", parent=BODY, fontName="MalgunBold", fontSize=10,
     leading=14, textColor=ORANGE, spaceAfter=2,
@@ -217,6 +225,8 @@ SECTION_TAGLINES = {
     "VIII": "6개 법령과 6대 리스크 방어",
     "IX": "사기 산업 ROI를 0으로",
     "X": "근거 자료와 인용",
+    "XI": "데이터·시연·구조·일정의 실행 구체화",
+    "XII": "오늘 코드 에디터를 열면 무엇을 쓰는가",
 }
 
 
@@ -386,6 +396,77 @@ def callout_quote(text):
     return [Spacer(1, 8), tbl, Spacer(1, 8)]
 
 
+def build_workflow(steps):
+    """Vertical workflow with numbered steps and arrows.
+    steps: list of (label, description, kind) where kind ∈ {"real", "mock", "user", "info"}.
+    Renders as a series of horizontal cards joined by Orange down-arrows."""
+    KIND_COLOR = {
+        "real": ORANGE,
+        "mock": MID,
+        "user": INK,
+        "info": SAGE,
+    }
+    KIND_TAG = {
+        "real": "AI 구현",
+        "mock": "모킹",
+        "user": "사용자",
+        "info": "결과",
+    }
+    avail = A4[0] - 36 * mm
+    elems = []
+    arrow_style = ParagraphStyle(
+        "wfArrow", parent=BODY, fontName="MalgunBold", fontSize=14,
+        leading=16, textColor=ORANGE, alignment=TA_CENTER, spaceAfter=0,
+    )
+    label_style = ParagraphStyle(
+        "wfLabel", parent=BODY, fontName="MalgunBold", fontSize=11.5,
+        leading=15, textColor=INK, spaceAfter=2,
+    )
+    desc_style = ParagraphStyle(
+        "wfDesc", parent=BODY, fontName="Malgun", fontSize=10,
+        leading=14, textColor=SLATE, spaceAfter=0,
+    )
+    badge_style = ParagraphStyle(
+        "wfBadge", parent=BODY, fontName="MalgunBold", fontSize=8,
+        leading=10, textColor=colors.white, alignment=TA_CENTER, spaceAfter=0,
+    )
+    for idx, (label, desc, kind) in enumerate(steps):
+        c = KIND_COLOR.get(kind, ORANGE)
+        # number circle column
+        num_para = Paragraph(f'<font color="white">{idx + 1}</font>', badge_style)
+        body_inner = [
+            Paragraph(label, label_style),
+            Paragraph(desc, desc_style),
+        ]
+        badge_inner = Paragraph(KIND_TAG.get(kind, ""), badge_style)
+        # outer table: [num_col, body_col, badge_col]
+        num_col_w = 12 * mm
+        badge_col_w = 22 * mm
+        body_col_w = avail - num_col_w - badge_col_w
+        row = Table(
+            [[num_para, body_inner, badge_inner]],
+            colWidths=[num_col_w, body_col_w, badge_col_w],
+        )
+        row.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (0, 0), c),
+            ("BACKGROUND", (1, 0), (1, 0), CREAM),
+            ("BACKGROUND", (2, 0), (2, 0), c),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("ALIGN", (0, 0), (0, 0), "CENTER"),
+            ("ALIGN", (2, 0), (2, 0), "CENTER"),
+            ("LEFTPADDING", (1, 0), (1, 0), 12),
+            ("RIGHTPADDING", (1, 0), (1, 0), 12),
+            ("TOPPADDING", (0, 0), (-1, -1), 8),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+            ("LINEABOVE", (1, 0), (1, 0), 0.4, LINE),
+            ("LINEBELOW", (1, 0), (1, 0), 0.4, LINE),
+        ]))
+        elems.append(row)
+        if idx < len(steps) - 1:
+            elems.append(Paragraph("↓", arrow_style))
+    return [Spacer(1, 6)] + elems + [Spacer(1, 8)]
+
+
 def callout_legal(title, text):
     """Legal/note box: Light Gray bg with Blue left bar."""
     avail = A4[0] - 36 * mm
@@ -433,15 +514,29 @@ def parse_md(md_text):
             i += 1
             continue
 
-        # Code fence
+        # Code fence (also supports ```workflow special block)
         if stripped.startswith("```"):
+            fence_tag = stripped[3:].strip().lower()
             code_lines = []
             i += 1
             while i < n and not lines[i].strip().startswith("```"):
                 code_lines.append(lines[i])
                 i += 1
             i += 1
-            flow.append(Preformatted("\n".join(code_lines), CODE))
+            if fence_tag == "workflow":
+                # Parse lines of: kind | label | description
+                steps = []
+                for cl in code_lines:
+                    parts = [p.strip() for p in cl.split("|")]
+                    if len(parts) == 3:
+                        kind, label, desc = parts
+                        steps.append((label, desc, kind))
+                if steps:
+                    flow.extend(build_workflow(steps))
+                continue
+            code_text = "\n".join(code_lines)
+            has_hangul = any("가" <= ch <= "힣" for ch in code_text)
+            flow.append(Preformatted(code_text, CODE_KO if has_hangul else CODE))
             continue
 
         # Headings

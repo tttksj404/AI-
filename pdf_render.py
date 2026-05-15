@@ -3,7 +3,7 @@ from pathlib import Path
 import pypdfium2 as pdfium
 
 ROOT = Path(r"C:\Users\SSAFY\Desktop\AI해커톤")
-PDF = ROOT / "기획서_Sentinel30_v2.pdf"
+PDF = ROOT / "기획서_Sentinel30_v2_3.pdf"
 OUT = ROOT / "_review"
 OUT.mkdir(exist_ok=True)
 
