@@ -124,6 +124,38 @@ STAT_LABEL = ParagraphStyle(
     "StatLabel", parent=BODY, fontName="Malgun", fontSize=9,
     leading=12, textColor=SLATE, spaceAfter=0,
 )
+TLDR_LABEL = ParagraphStyle(
+    "TldrLabel", parent=BODY, fontName="MalgunBold", fontSize=9,
+    leading=11, textColor=colors.white, spaceAfter=2, alignment=TA_LEFT,
+)
+TLDR_BODY = ParagraphStyle(
+    "TldrBody", parent=BODY, fontName="MalgunBold", fontSize=11.5,
+    leading=17, textColor=INK, spaceAfter=0,
+)
+CODEHEAD_FILE = ParagraphStyle(
+    "CodeHeadFile", parent=BODY, fontName="Courier", fontSize=9,
+    leading=12, textColor=ORANGE, spaceAfter=2,
+)
+CODEHEAD_DESC = ParagraphStyle(
+    "CodeHeadDesc", parent=BODY, fontName="Malgun", fontSize=10,
+    leading=14, textColor=INK, spaceAfter=0,
+)
+WARN_LABEL = ParagraphStyle(
+    "WarnLabel", parent=BODY, fontName="MalgunBold", fontSize=9,
+    leading=11, textColor=colors.white, spaceAfter=2,
+)
+WARN_BODY = ParagraphStyle(
+    "WarnBody", parent=BODY, fontName="Malgun", fontSize=10,
+    leading=14, textColor=INK, spaceAfter=0,
+)
+GRID_LABEL = ParagraphStyle(
+    "GridLabel", parent=BODY, fontName="MalgunBold", fontSize=8.5,
+    leading=10, textColor=ORANGE, spaceAfter=2,
+)
+GRID_VALUE = ParagraphStyle(
+    "GridValue", parent=BODY, fontName="Malgun", fontSize=10,
+    leading=14, textColor=INK, spaceAfter=0,
+)
 
 
 def inline(text):
@@ -215,6 +247,7 @@ def build_table(header, body):
 # ---------------- Section divider (full-page) ----------------
 
 SECTION_TAGLINES = {
+    "0": "5분 안에 프로젝트·역할·일정을 한눈에",
     "I": "프로젝트 개요와 핵심 정의",
     "II": "외부 환경과 시장의 압력",
     "III": "3C · SWOT · 페르소나로 본 차별화",
@@ -227,6 +260,81 @@ SECTION_TAGLINES = {
     "X": "근거 자료와 인용",
     "XI": "데이터·시연·구조·일정의 실행 구체화",
     "XII": "오늘 코드 에디터를 열면 무엇을 쓰는가",
+    "XIII": "5분 시작 · 파일 치트시트 · 트러블슈팅 · 용어 사전",
+}
+
+# Each chapter's "이 챕터의 핵심 3가지" — for the divider page
+SECTION_HIGHLIGHTS = {
+    "0": [
+        ("원페이저", "무엇·왜·어떻게·누가·언제까지"),
+        ("모듈 맵", "5레이어 18모듈·담당자 매핑"),
+        ("역할 카드", "6인 첫날·의존·KPI 가이드"),
+    ],
+    "I": [
+        ("정의", "사기 산업 시간당 매출을 0으로"),
+        ("차별화", "Active Defense — 시간·정보·도구 약탈"),
+        ("팀", "6인 4주 + 본선 2일"),
+    ],
+    "II": [
+        ("피해", "2024년 8,545억 원"),
+        ("골든타임", "30분 환수 윈도우"),
+        ("기술", "한국어 LLM·TTS 성숙"),
+    ],
+    "III": [
+        ("3C", "고령자·자녀·은행 디지털보안"),
+        ("SWOT", "법리 트랙이 유일 차별 자원"),
+        ("페르소나", "박순자 73세 + 김지영 28세 자녀"),
+    ],
+    "IV": [
+        ("레이어", "미끼번호→봇→정보전→앱 5단"),
+        ("MoSCoW", "Must 5종 / Should 3종"),
+        ("위협", "MITRE ATLAS + OWASP LLM Top 10"),
+    ],
+    "V": [
+        ("타겟", "시중은행·금감원·통신사"),
+        ("예산", "130만 원 (예선 4주)"),
+        ("역할", "기획·ML·백엔드·UX·법리 분담"),
+    ],
+    "VI": [
+        ("탐지율", "87% (기존 78%)"),
+        ("시간 약탈", "통화당 30분 이상"),
+        ("환수 윈도우", "30분 이내 모의 동결"),
+    ],
+    "VII": [
+        ("리스크 6종", "R1~R6 발생확률 × 영향도"),
+        ("최우선", "R1 미끼봇 협박 발화"),
+        ("대응", "Safety Guard + 가드레일"),
+    ],
+    "VIII": [
+        ("법령", "통비법·개보법·신용정보법 등 6종"),
+        ("판례", "대법원 2008도1237 (당사자 녹음)"),
+        ("선례", "영국 Ofcom Active Defense 인증"),
+    ],
+    "IX": [
+        ("정량", "환수율 1.97% → 30% 목표"),
+        ("정성", "시니어 가족 동반 안전망"),
+        ("국제", "Daisy AI 한국형 벤치마크"),
+    ],
+    "X": [
+        ("법령", "현행 6개 + 2026 시행"),
+        ("표준", "ISMS-P · MITRE ATLAS · OWASP"),
+        ("통계", "경찰청·금감원·MarketsandMarkets"),
+    ],
+    "XI": [
+        ("데이터", "정량·시나리오·합성 3계층"),
+        ("음성", "Typecast + 7→1.5초 마스킹"),
+        ("Guardian Live", "보호 번호로 단말 분리"),
+    ],
+    "XII": [
+        ("스택", "FastAPI + Claude + Twilio + Streamlit"),
+        ("스키마", "models.py 6개 테이블"),
+        ("연결", "12.14 데이터 배선 11종"),
+    ],
+    "XIII": [
+        ("5분", "환경 셋업 체크리스트"),
+        ("치트시트", "파일 25개 한 줄 정리"),
+        ("트러블", "자주 막히는 곳 10개"),
+    ],
 }
 
 
@@ -280,6 +388,58 @@ class SectionDivider(Flowable):
         c.setFont("Malgun", 13)
         tag = SECTION_TAGLINES.get(self.roman, "")
         c.drawString(0, cy - 4 * mm, tag)
+
+        # "이 챕터의 핵심 3가지" 카드 (있는 챕터만, 페이지 하단에 배치 - 워터마크보다 아래)
+        highlights = SECTION_HIGHLIGHTS.get(self.roman)
+        if highlights:
+            # Top of cards: ~30mm above bottom margin
+            card_y = 32 * mm
+            card_h = 32 * mm
+            card_gap = 4 * mm
+            ribbon_w = 14 * mm
+            avail_w = W - ribbon_w
+            card_w = (avail_w - 2 * card_gap) / 3
+            # Section label above cards
+            c.setFillColor(ORANGE)
+            c.setFont("MalgunBold", 10)
+            c.drawString(0, card_y + card_h + 6 * mm, "이 챕터의 핵심 3가지")
+            c.setStrokeColor(ORANGE)
+            c.setLineWidth(0.6)
+            c.line(0, card_y + card_h + 3 * mm, 40 * mm, card_y + card_h + 3 * mm)
+            for idx, (label, value) in enumerate(highlights):
+                x = idx * (card_w + card_gap)
+                # Card body - stronger contrast
+                c.setFillColor(TAN)
+                c.setStrokeColor(ORANGE)
+                c.setLineWidth(0.8)
+                c.rect(x, card_y, card_w, card_h, fill=1, stroke=1)
+                # Top color bar
+                c.setFillColor(ORANGE)
+                c.rect(x, card_y + card_h - 1.5 * mm, card_w, 1.5 * mm, fill=1, stroke=0)
+                # Label
+                c.setFillColor(ORANGE)
+                c.setFont("MalgunBold", 9)
+                c.drawString(x + 5 * mm, card_y + card_h - 9 * mm, label.upper())
+                # Value (wrap if too long)
+                c.setFillColor(INK)
+                c.setFont("MalgunBold", 11)
+                # Simple word wrap for value
+                text_obj = c.beginText(x + 5 * mm, card_y + card_h - 16 * mm)
+                text_obj.setFont("MalgunBold", 10.5)
+                text_obj.setLeading(13)
+                words = value.split(" ")
+                line = ""
+                max_chars = int((card_w - 10 * mm) / 2.4)  # ~2.4mm per Hangul char @ 10.5pt
+                for w in words:
+                    cand = (line + " " + w).strip()
+                    if len(cand) > max_chars and line:
+                        text_obj.textLine(line)
+                        line = w
+                    else:
+                        line = cand
+                if line:
+                    text_obj.textLine(line)
+                c.drawText(text_obj)
 
         # Vertical brand label on the orange ribbon
         c.saveState()
@@ -467,6 +627,99 @@ def build_workflow(steps):
     return [Spacer(1, 6)] + elems + [Spacer(1, 8)]
 
 
+def callout_tldr(text):
+    """TL;DR: Dark left rail with white label + big readable body."""
+    avail = A4[0] - 36 * mm
+    label_cell = Paragraph("TL;DR", TLDR_LABEL)
+    body_cell = Paragraph(text, TLDR_BODY)
+    label_w = 18 * mm
+    tbl = Table(
+        [[label_cell, body_cell]],
+        colWidths=[label_w, avail - label_w],
+    )
+    tbl.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (0, 0), INK),
+        ("BACKGROUND", (1, 0), (1, 0), WARM),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (0, 0), "CENTER"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 12),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+        ("TOPPADDING", (0, 0), (-1, -1), 11),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 11),
+    ]))
+    return [Spacer(1, 6), tbl, Spacer(1, 8)]
+
+
+def code_header(file_path, description):
+    """Pre-code header: file path + (optional) one-line purpose."""
+    avail = A4[0] - 36 * mm
+    cell = [Paragraph(
+        f'<font face="MalgunBold" color="{ORANGE.hexval()}">FILE</font> '
+        f'&nbsp;&nbsp;<font face="Courier" color="{INK.hexval()}">{file_path}</font>',
+        CODEHEAD_FILE,
+    )]
+    if description and description.strip():
+        cell.append(Paragraph(description, CODEHEAD_DESC))
+    tbl = Table([[cell]], colWidths=[avail])
+    tbl.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), TAN),
+        ("LINEBEFORE", (0, 0), (0, -1), 3, ORANGE),
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
+    return [Spacer(1, 6), tbl]
+
+
+def warning_box(text):
+    """Yellow/orange warning box for '흔한 실수' content."""
+    avail = A4[0] - 36 * mm
+    label_cell = Paragraph("⚠ 주의", WARN_LABEL)
+    body_cell = Paragraph(text, WARN_BODY)
+    label_w = 18 * mm
+    tbl = Table(
+        [[label_cell, body_cell]],
+        colWidths=[label_w, avail - label_w],
+    )
+    tbl.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (0, 0), BURNT),
+        ("BACKGROUND", (1, 0), (1, 0), colors.HexColor("#fbf2e9")),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (0, 0), "CENTER"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+    ]))
+    return [Spacer(1, 6), tbl, Spacer(1, 8)]
+
+
+def info_grid(pairs):
+    """2 or 3 column grid: (label, value) tuples. Useful for WHAT/WHY/PREREQ/NEXT headers."""
+    avail = A4[0] - 36 * mm
+    cols = len(pairs)
+    col_w = avail / cols
+    row = []
+    for label, value in pairs:
+        cell = [Paragraph(label, GRID_LABEL), Paragraph(value, GRID_VALUE)]
+        row.append(cell)
+    tbl = Table([row], colWidths=[col_w] * cols)
+    style = [
+        ("BACKGROUND", (0, 0), (-1, -1), WARM),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+    ]
+    # Vertical dividers between cells
+    for c in range(1, cols):
+        style.append(("LINEBEFORE", (c, 0), (c, 0), 0.4, LINE))
+    tbl.setStyle(TableStyle(style))
+    return [Spacer(1, 6), tbl, Spacer(1, 8)]
+
+
 def callout_legal(title, text):
     """Legal/note box: Light Gray bg with Blue left bar."""
     avail = A4[0] - 36 * mm
@@ -535,6 +788,14 @@ def parse_md(md_text):
                     flow.extend(build_workflow(steps))
                 continue
             code_text = "\n".join(code_lines)
+            # Auto-detect file path comment as first line (e.g. "# backend/app/services/miketbot.py")
+            first_line = code_lines[0].strip() if code_lines else ""
+            file_path_m = re.match(
+                r"^(?://|#|<!--)\s*([a-zA-Z0-9_./\-]+\.(?:py|kt|xml|yml|yaml|sql|toml|js|ts|json|md|sh))",
+                first_line,
+            )
+            if file_path_m:
+                flow.extend(code_header(file_path_m.group(1), ""))
             has_hangul = any("가" <= ch <= "힣" for ch in code_text)
             flow.append(Preformatted(code_text, CODE_KO if has_hangul else CODE))
             continue
@@ -543,7 +804,8 @@ def parse_md(md_text):
         if stripped.startswith("# "):
             title = stripped[2:].strip()
             # Section divider for roman-numeral chapters: "I. 기획 개요", "II. ..."
-            roman = re.match(r"^([IVXLC]+)\.\s+(.+)$", title)
+            # Also accept "0. 한눈에 보기" for Chapter 0
+            roman = re.match(r"^([0IVXLC]+)\.\s+(.+)$", title)
             if roman:
                 flow.append(PageBreak())
                 flow.append(SectionDivider(roman.group(1), roman.group(2)))
@@ -585,10 +847,29 @@ def parse_md(md_text):
                 quote_lines.append(lines[i].strip().lstrip(">").lstrip())
                 i += 1
             joined = " ".join(quote_lines).strip()
-            # Callout triggers (legacy ** lead = pullquote)
+            # Callout triggers
             stat_m = re.match(r"^📊\s*(.+?)\s*\|\s*(.+)$", joined)
             legal_m = re.match(r"^(?:⚖|📌)\s*(.+?):\s*(.+)$", joined)
-            if stat_m:
+            tldr_m = re.match(r"^(?:🎯|TL;DR)\s*[:：]?\s*(.+)$", joined)
+            warn_m = re.match(r"^(?:⚠|⚠️)\s*(.+)$", joined)
+            file_m = re.match(r"^📄\s*([^\s]+)\s*[—\-]\s*(.+)$", joined)
+            grid_m = re.match(r"^🧭\s*(.+)$", joined)
+            if tldr_m:
+                flow.extend(callout_tldr(inline(tldr_m.group(1))))
+            elif warn_m:
+                flow.extend(warning_box(inline(warn_m.group(1))))
+            elif file_m:
+                flow.extend(code_header(file_m.group(1), inline(file_m.group(2))))
+            elif grid_m:
+                # 🧭 LABEL1: value1 | LABEL2: value2 | LABEL3: value3
+                pairs = []
+                for chunk in grid_m.group(1).split("|"):
+                    parts = chunk.strip().split(":", 1)
+                    if len(parts) == 2:
+                        pairs.append((parts[0].strip(), inline(parts[1].strip())))
+                if pairs:
+                    flow.extend(info_grid(pairs))
+            elif stat_m:
                 flow.extend(callout_stat(stat_m.group(1), stat_m.group(2)))
             elif legal_m:
                 flow.extend(callout_legal(legal_m.group(1), legal_m.group(2)))

@@ -750,7 +750,7 @@ def cover_page(canvas, doc):
     canvas.drawString(22 * mm, H - 30 * mm, "PROJECT BRIEF")
     canvas.setFont("Malgun", 10)
     canvas.setFillColor(SLATE)
-    canvas.drawString(48 * mm, H - 30 * mm, "/  Active Defense Platform")
+    canvas.drawString(48 * mm, H - 30 * mm, "/  AI 민생 10대 프로젝트 8번")
 
     # 5) Title block
     canvas.setFont("MalgunBold", 60)
@@ -777,7 +777,7 @@ def cover_page(canvas, doc):
     tile_w = (W - 44 * mm - 8 * mm) / 3
     stats = [
         ("30분", "환수 골든타임", ORANGE),
-        ("₩1.97조", "2024 보이스피싱 피해", INK),
+        ("₩8,545억", "2024 보이스피싱 피해", INK),
         ("7", "Defense-in-Depth 레이어", SAGE),
     ]
     for idx, (val, lbl, color) in enumerate(stats):
@@ -819,7 +819,7 @@ def cover_page(canvas, doc):
     canvas.setLineWidth(0.5)
     canvas.line(22 * mm, meta_y + 4 * mm, W - 22 * mm, meta_y + 4 * mm)
     items = [
-        ("CATEGORY", "⑧ AI 기반 보이스피싱 공동 대응"),
+        ("CATEGORY", "AI 민생 8번 보이스피싱 공동 대응"),
         ("TEAM", "6인 (기획 1 / ML 2 / 백엔드 1 / UX 1 / 법리·보안 1)"),
         ("DATE", "2026-05-12"),
         ("STAGE", "예선 4주 + 본선 무박 2일"),
