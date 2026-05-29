@@ -143,6 +143,7 @@ def main():
         "추상 티어(haiku=저가 / sonnet=중급 / opus=최상위)는 프로바이더별 실모델에 매핑 — 프롬프트는 모델 무관",
         DIM2, 9.5, ha="center")
 
+    import textwrap
     top = 92.0
     card_h = 17.2
     gap = 0.7
@@ -155,28 +156,24 @@ def main():
         ax.add_patch(FancyBboxPatch((3.3, y0 + 0.4), 0.9, card_h - 0.8,
                      boxstyle="round,pad=0.01,rounding_size=0.2",
                      facecolor=c["accent"], edgecolor="none", zorder=3))
-        yy = y1 - 1.3
-        # 역할 태그 + 배치
-        txt(ax, 6, yy, c["tag"], c["accent"], 14, bold=True)
-        yy -= 2.0
-        rbox(ax, 6, yy - 0.3, 56, 2.2, BG, edge=c["accent"], lw=0.9, rad=0.25, z=3)
-        txt(ax, 7, yy + 1.35, "배치 · " + c["placement"], DIM, 9.5, bold=True, va="top")
 
+        # ── 헤더: 역할 태그 + 배치 pill ──
+        txt(ax, 6, y1 - 1.8, c["tag"], c["accent"], 14, bold=True, va="center")
+        rbox(ax, 6, y1 - 4.6, 89, 2.0, BG, edge=c["accent"], lw=0.9, rad=0.25, z=3)
+        txt(ax, 7.3, y1 - 3.6, "배치 · " + c["placement"], DIM, 9.5, bold=True, va="center")
+
+        # ── 본문 박스(좌: 프롬프트 / 우: 왜) ──
+        box_top = y1 - 5.4
+        box_bot = y0 + 1.0
+        box_h = box_top - box_bot
         # 프롬프트 박스 (왼쪽)
-        py = y1 - 1.6
-        rbox(ax, 6, y0 + 1.2, 52, card_h - 4.6, CODE_BG, edge=LINEC, lw=0.8, rad=0.25, z=3)
-        txt(ax, 7.3, y0 + card_h - 4.9, c["prompt_title"], TEXT, 9.5, bold=True, va="top")
-        txt(ax, 7.3, y0 + card_h - 6.5, c["prompt"], DIM, 8.3, va="top")
-
+        rbox(ax, 6, box_bot, 52, box_h, CODE_BG, edge=LINEC, lw=0.8, rad=0.25, z=3)
+        txt(ax, 7.3, box_top - 0.7, c["prompt_title"], TEXT, 9.3, bold=True, va="top")
+        txt(ax, 7.3, box_top - 2.4, c["prompt"], DIM, 8.2, va="top")
         # 왜 박스 (오른쪽)
-        rbox(ax, 60, y0 + 1.2, 35, card_h - 2.6, BG, edge=c["accent"], lw=1.0, rad=0.3, z=3)
-        txt(ax, 61.5, y1 - 1.7, "설계 의도 (왜)", c["accent"], 11, bold=True, va="top")
-        # why 텍스트 줄바꿈
-        why = c["why"]
-        # 간단한 wrap (글자수 기준)
-        import textwrap
-        wrapped = textwrap.fill(why, width=27)
-        txt(ax, 61.5, y1 - 3.6, wrapped, TEXT, 9.2, va="top")
+        rbox(ax, 60, box_bot, 35, box_h, BG, edge=c["accent"], lw=1.0, rad=0.3, z=3)
+        txt(ax, 61.5, box_top - 0.7, "설계 의도 (왜)", c["accent"], 11, bold=True, va="top")
+        txt(ax, 61.5, box_top - 2.6, textwrap.fill(c["why"], width=27), TEXT, 9.2, va="top")
 
     fig.savefig(RESULTS / "fig_orch_prompts.png", dpi=185,
                 bbox_inches="tight", facecolor=BG)
