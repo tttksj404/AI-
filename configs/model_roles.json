@@ -1,0 +1,79 @@
+{
+  "runtime_mode": "simulation",
+  "default_roles": [
+    {
+      "role": "stt",
+      "model": "Systran/faster-whisper-large-v3-turbo",
+      "backend": "faster-whisper",
+      "device": "cuda",
+      "precision": "float16",
+      "purpose": "Korean speech-to-text"
+    },
+    {
+      "role": "router",
+      "model": "rule-router-v1",
+      "backend": "deterministic-policy",
+      "device": "cpu",
+      "precision": "fp32",
+      "purpose": "risk and prompt-injection routing"
+    },
+    {
+      "role": "responder",
+      "model": "Qwen/Qwen3-4B",
+      "backend": "vllm-openai-compatible",
+      "device": "cuda",
+      "precision": "bf16-or-4bit",
+      "purpose": "low-latency Korean baitbot response"
+    },
+    {
+      "role": "extractor",
+      "model": "Qwen/Qwen3-4B",
+      "backend": "vllm-openai-compatible",
+      "device": "cuda",
+      "precision": "bf16-or-4bit",
+      "purpose": "structured JSON evidence extraction"
+    },
+    {
+      "role": "personalizer",
+      "model": "Qwen/Qwen3-4B+user-lora",
+      "backend": "peft-qlora",
+      "device": "cuda",
+      "precision": "4bit-base-plus-lora",
+      "purpose": "opt-in profile style adapter, not raw-call memorization"
+    },
+    {
+      "role": "tts",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "backend": "qwen3-tts",
+      "device": "cuda",
+      "precision": "bf16",
+      "purpose": "synthetic or licensed voice response",
+      "streaming_candidate": "ElevenLabs HTTP/WebSocket TTS (credential gated)",
+      "measured_remote_path": "Qwen3-TTS full-buffer only; first chunk unmeasured"
+    },
+    {
+      "role": "judge",
+      "model": "Qwen/Qwen3-32B",
+      "backend": "vllm-openai-compatible",
+      "device": "cuda-multi-gpu",
+      "precision": "bf16-or-4bit",
+      "purpose": "offline adversarial judge and release gate",
+      "offline_only": true
+    }
+  ],
+  "cross_model_audit": [
+    "Claude Haiku/Sonnet",
+    "GPT family",
+    "Gemini family",
+    "DeepSeek family"
+  ],
+  "gpu_profiles_are_targets_not_measurements": true,
+  "local_6gb_profile": {
+    "online_model": "Qwen/Qwen3-4B",
+    "fallback_model": "Qwen/Qwen3-1.7B",
+    "quantization": "4bit",
+    "max_concurrent_requests": 1,
+    "max_context_tokens": 8192,
+    "note": "must be measured on the RTX 4050 before claiming real-time performance"
+  }
+}

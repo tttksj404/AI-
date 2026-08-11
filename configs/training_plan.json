@@ -1,0 +1,50 @@
+{
+  "data_boundary": {
+    "allowed": ["synthetic_transcript", "licensed_voice", "explicit_opt_in_profile"],
+    "blocked": ["real_call_recording", "unconsented_profile", "raw_pii", "automatic_voice_clone"],
+    "split_unit": "session_id",
+    "redact_before_split": true
+  },
+  "stages": [
+    {
+      "name": "classifier_baseline",
+      "input": "scenario_label plus redacted transcript",
+      "method": "rules plus frozen Qwen3-4B structured classification",
+      "promotion_gate": "schema_pass, attack_pass, held_out_session_metrics"
+    },
+    {
+      "name": "evidence_extractor",
+      "input": "synthetic transcript and evidence labels",
+      "method": "QLoRA adapter on JSON extraction examples for Qwen3-4B",
+      "promotion_gate": "field_precision_recall, unknown_scenario_holdout, injection_suite"
+    },
+    {
+      "name": "user_personalization",
+      "input": "opt-in style preferences and approved summaries only",
+      "method": "retrieval/profile context first, per-segment LoRA only after enough anonymized data",
+      "promotion_gate": "privacy_leak_zero, profile_off_equivalence, safety_regression_pass"
+    },
+    {
+      "name": "tts_style",
+      "input": "synthetic or licensed speaker data with transcript and consent metadata",
+      "method": "instruction/style control before fine-tuning",
+      "promotion_gate": "Korean intelligibility, speaker-license check, audio safety review"
+    }
+  ],
+  "proposed_qlora": {
+    "target_modules": "all-linear",
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "quantization": "4bit-nf4",
+    "status": "synthetic smoke executed; production and holdout unverified"
+  },
+  "active_learning_loop": [
+    "queue_unknown",
+    "cluster_and_label",
+    "add_scenario_or_rule",
+    "train_candidate",
+    "run_security_and_holdout_gates",
+    "promote_or_hold_with_human_review"
+  ]
+}
