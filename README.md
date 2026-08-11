@@ -15,6 +15,14 @@ This repository demonstrates:
 
 The project-specific interaction map is documented in [docs/LEARNING_GUIDE.md](docs/LEARNING_GUIDE.md).
 
+The executable voice-pipeline vertical slice and GPU/model/training plan are documented in [docs/VOICE_PIPELINE_IMPLEMENTATION.md](docs/VOICE_PIPELINE_IMPLEMENTATION.md). Remote synthetic GPU measurements are recorded in [docs/REMOTE_GPU_MEASUREMENTS.md](docs/REMOTE_GPU_MEASUREMENTS.md).
+
+The single source of truth for verified, designed, and not-yet-run claims is [docs/CLAIM_STATUS.md](docs/CLAIM_STATUS.md).
+
+```powershell
+python -m security_layer_eval.voice_pipeline.demo
+```
+
 ## Main Artifacts
 
 - `기획서_Sentinel30.md`: full planning document
