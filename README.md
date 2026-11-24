@@ -38,3 +38,7 @@ This project is useful for AI/data and security-adjacent roles because it shows 
 ## Limitation
 
 This is a concept and presentation repository, not a production anti-fraud service. Real deployment would require legal review, telecom integration, privacy review, audited model behavior, and human operator controls.
+
+## 경험 기록
+
+이 프로젝트를 왜 시작했는지, 무엇을 직접 판단했는지, 결과가 어땠는지는 [docs/experience-record.md](docs/experience-record.md)에 정리했습니다.
